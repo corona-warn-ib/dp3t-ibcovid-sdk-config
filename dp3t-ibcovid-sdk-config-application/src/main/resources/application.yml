@@ -1,0 +1,34 @@
+---
+# App specific
+dp3t:
+  ibcovid:
+    sdkconfig:
+      clients:
+        auth: "http://localhost:10103/v1"
+      public-key: "classpath:/cert/auth/public.key"
+
+spring:
+  main:
+    banner-mode: off
+  profiles:
+    active: @activeSpringProfiles@
+  jpa:
+    # Hibernate
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    open-in-view: false
+
+  # Database migration
+  flyway:
+    enabled: @enableDBMigration@
+    baseline-on-migrate: true
+    table: "flyway_history_sdkconfig"
+    locations: "classpath:db/migration/@databaseDialect@"
+
+logging:
+  config: "classpath:log4j2-@activeEnvironment@.yml"
